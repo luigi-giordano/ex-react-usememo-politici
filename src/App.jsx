@@ -5,6 +5,7 @@ function App() {
   const API_URL = "http://localhost:3333";
 
   const [politici, setPolitici] = useState([]);
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
 
@@ -14,13 +15,24 @@ function App() {
       .catch(error => console.error(error));
   }, []);
 
-  console.log(politici);
+  const filteredPoliticians = politici.filter(p => {
+    const isInName = p.name.toLowerCase().includes(search.toLowerCase())
+    const isInBio = p.biography.toLowerCase().includes(search.toLowerCase())
+    return isInName || isInBio;
+  })
+
 
   return (
     <div>
       <h1>Lista Politici</h1>
+      <input
+        type="text"
+        placeholder="Cerca per nome o biografia"
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+      />
       <div className="politicians-list">
-        {politici.map(p => (
+        {filteredPoliticians.map(p => (
           <div className="card" key={p.id}>
             <img src={p.image} alt={p.name} />
             <h2>{p.name}</h2>
