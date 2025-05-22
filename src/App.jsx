@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 
 function App() {
 
@@ -15,11 +15,13 @@ function App() {
       .catch(error => console.error(error));
   }, []);
 
-  const filteredPoliticians = politici.filter(p => {
-    const isInName = p.name.toLowerCase().includes(search.toLowerCase())
-    const isInBio = p.biography.toLowerCase().includes(search.toLowerCase())
-    return isInName || isInBio;
-  })
+  const filteredPoliticians = useMemo(() => {
+    return politici.filter(p => {
+      const isInName = p.name.toLowerCase().includes(search.toLowerCase())
+      const isInBio = p.biography.toLowerCase().includes(search.toLowerCase())
+      return isInName || isInBio;
+    })
+  }, [politici, search])
 
 
   return (
