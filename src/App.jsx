@@ -1,4 +1,17 @@
-import { useState, useEffect, useMemo } from "react"
+import React, { useState, useEffect, useMemo } from "react"
+
+const PoliticianCard = React.memo(({ name, image, position, biography }) => {
+  console.log("Card");
+
+  return (
+    <div className="card">
+      <img src={image} alt={name} />
+      <h2>{name}</h2>
+      <p><strong>Posizione</strong>{position}</p>
+      <p>{biography}</p>
+    </div>
+  )
+})
 
 function App() {
 
@@ -35,12 +48,7 @@ function App() {
       />
       <div className="politicians-list">
         {filteredPoliticians.map(p => (
-          <div className="card" key={p.id}>
-            <img src={p.image} alt={p.name} />
-            <h2>{p.name}</h2>
-            <p><strong>Posizione:</strong>{p.position}</p>
-            <p>{p.biography}</p>
-          </div>
+          <PoliticianCard key={p.id} {...p} />
         ))}
       </div>
     </div>
